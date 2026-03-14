@@ -2,6 +2,10 @@
 
 **Continuous monitoring of public service grievances on social media**
 
+[![CI](https://github.com/ungalsoththu/grievance-scout/actions/workflows/ci.yml/badge.svg)](https://github.com/ungalsoththu/grievance-scout/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-10%20passing-brightgreen)](https://github.com/ungalsoththu/grievance-scout/blob/main/tests/)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
 Grievance Scout is a scalable, passive auditing platform that tracks citizen complaints to public service organizations on Twitter/X. It automatically discovers new complaint patterns, analyzes response times, and generates actionable audit reports.
 
 ## Quick Start
@@ -174,6 +178,63 @@ docker run -e TWITTER_AUTH_TOKEN=xxx -e TWITTER_CT0=xxx \
   -v $(pwd)/data:/data \
   ghcr.io/ungalsoththu/grievance-scout:latest
 ```
+
+## Testing & Coverage
+
+Grievance Scout includes a comprehensive test suite covering core functionality:
+
+```bash
+# Run all tests
+bun test
+
+# Run with coverage report
+bun test --coverage
+
+# Run specific test suites
+bun test tests/simple.test.ts
+```
+
+### Test Coverage
+
+| Component | Tests | Coverage |
+|-----------|-------|----------|
+| Database Core | 3 | Handle storage, complaint CRUD, aggregation queries |
+| Passive Rotator | 2 | Query prioritization, jitter calculation |
+| Categorization | 3 | Keyword-based classification logic |
+| Escalation Detection | 2 | Frustration keyword detection |
+| **Total** | **10** | **Core functionality verified** |
+
+### Sample Test Output
+
+```
+✓ Database Core (3 tests)
+  ✓ should store and retrieve handles
+  ✓ should store complaints with categories
+  ✓ should count complaints by category
+
+✓ Passive Rotator (2 tests)
+  ✓ should prioritize mention queries
+  ✓ should calculate jitter correctly
+
+✓ Categorization (3 tests)
+  ✓ should categorize route issues
+  ✓ should categorize delays
+  ✓ should categorize staff issues
+
+✓ Escalation Detection (2 tests)
+  ✓ should detect escalation keywords
+  ✓ should not flag normal complaints
+
+10 pass, 0 fail
+```
+
+### Continuous Integration
+
+Every push and PR runs:
+- Type checking with `tsc --noEmit`
+- Database initialization tests
+- Full test suite with coverage
+- JUnit reports for GitHub Actions
 
 ## Scripts
 
