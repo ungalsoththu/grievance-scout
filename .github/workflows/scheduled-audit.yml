@@ -1,0 +1,55 @@
+name: Scheduled Grievance Audit
+
+on:
+  schedule:
+    # Run Sundays at 9:00 AM IST (3:30 AM UTC)
+    - cron: '30 3 * * 0'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run audit
+        env:
+          TWITTER_AUTH_TOKEN: ${{ secrets.TWITTER_AUTH_TOKEN }}
+          TWITTER_CT0: ${{ secrets.TWITTER_CT0 }}
+          ZO_CLIENT_IDENTITY_TOKEN: ${{ secrets.ZO_CLIENT_IDENTITY_TOKEN }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+          AUDIT_DB_PATH: ${{ github.workspace }}/audit.db
+        run: |
+          mkdir -p reports
+          bun run scripts/audit.ts --agent-mode 2>&1 | tee reports/audit.log
+
+      - name: Upload database artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-database
+          path: audit.db
+          retention-days: 90
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-reports
+          path: reports/
+          retention-days: 365
+
+      - name: Commit database to repo (optional)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add audit.db reports/
+          git diff --quiet && git diff --staged --quiet || git commit -m "Weekly audit: $(date +%Y-%m-%d)"
+          git push origin main || echo "Nothing to push"

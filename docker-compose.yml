@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  grievance-scout:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: grievance-scout
+    
+    # Environment variables
+    environment:
+      - TWITTER_AUTH_TOKEN=${TWITTER_AUTH_TOKEN}
+      - TWITTER_CT0=${TWITTER_CT0}
+      - ZO_CLIENT_IDENTITY_TOKEN=${ZO_CLIENT_IDENTITY_TOKEN}
+      - TURSO_AUTH_TOKEN=${TURSO_AUTH_TOKEN}
+      - AUDIT_DB_PATH=/data/audit.db
+      - NODE_ENV=production
+    
+    # Persistent volumes
+    volumes:
+      - ./data:/data
+      - ./reports:/app/reports
+      - ./config:/app/config:ro
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Restart policy
+    restart: unless-stopped
+
+  # Optional: Scheduled runner using Ofelia
+  scheduler:
+    image: mcuadros/ofelia:latest
+    container_name: grievance-scout-scheduler
+    depends_on:
+      - grievance-scout
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      # Run audit every Sunday at 9 AM IST (3:30 AM UTC)
+      - "ofelia.job-run.audit.schedule=0 30 3 * * 0"
+      - "ofelia.job-run.audit.container=grievance-scout"
+      - "ofelia.job-run.audit.command=bun run scripts/audit.ts --agent-mode"
+      
+      # Run enrich-terms monthly
+      - "ofelia.job-run.enrich.schedule=0 0 1 * *"
+      - "ofelia.job-run.enrich.container=grievance-scout"
+      - "ofelia.job-run.enrich.command=bun run scripts/enrich-terms.ts"
+    restart: unless-stopped
+
+volumes:
+  data:
+  reports:

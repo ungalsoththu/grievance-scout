@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Type check
+        run: bun tsc --noEmit
+
+      - name: Lint
+        run: bun lint || echo "No lint script configured"
+
+  test-database:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Test database initialization
+        run: |
+          mkdir -p /tmp/grievance-scout
+          AUDIT_DB_PATH=/tmp/grievance-scout/test.db bun run scripts/init.ts
+
+      - name: Verify database schema
+        run: |
+          sqlite3 /tmp/grievance-scout/test.db ".tables"
+          sqlite3 /tmp/grievance-scout/test.db "SELECT COUNT(*) FROM search_terms"

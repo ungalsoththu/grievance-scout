@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Data (mount as volume)
+Data/
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Reports (mount as volume)
+reports/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temp
+tmp/
+temp/
+*.tmp
+
+# CI
+.github/
+
+# Docs not needed in runtime
+CLAUDE.md

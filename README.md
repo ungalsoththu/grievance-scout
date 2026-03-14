@@ -109,6 +109,72 @@ Edit `config/handles.json`:
 }
 ```
 
+## Deployment
+
+### GitHub Actions (Recommended)
+
+The repository includes scheduled workflows:
+
+1. **Fork/clone this repo**
+2. **Add repository secrets** (Settings → Secrets → Actions):
+   - `TWITTER_AUTH_TOKEN` - From browser cookies
+   - `TWITTER_CT0` - From browser cookies  
+   - `ZO_CLIENT_IDENTITY_TOKEN` - Optional, for LLM categorization
+   - `TURSO_AUTH_TOKEN` - Optional, for Turso backend
+
+3. **Enable workflows** → Audit runs automatically every Sunday 9 AM IST
+
+Workflows:
+- `ci.yml` - Type check & test on every push
+- `scheduled-audit.yml` - Weekly audit with artifact upload
+- `release.yml` - Builds container image on tag push
+
+### Docker
+
+```bash
+# Build
+docker build -t grievance-scout .
+
+# Run once
+docker run -e TWITTER_AUTH_TOKEN=xxx -e TWITTER_CT0=xxx \
+  -v $(pwd)/data:/data grievance-scout
+
+# Run with custom command
+docker run grievance-scout bun run scripts/audit.ts --handle @MtcChennai
+```
+
+### Docker Compose
+
+```bash
+# Create .env file
+cat > .env << EOF
+TWITTER_AUTH_TOKEN=your_token
+TWITTER_CT0=your_ct0
+EOF
+
+# Start with scheduler
+docker-compose up -d
+
+# Run manually
+docker-compose run grievance-scout bun run scripts/audit.ts --agent-mode
+
+# View logs
+docker-compose logs -f
+```
+
+### GitHub Container Registry
+
+Pre-built images available:
+
+```bash
+docker pull ghcr.io/ungalsoththu/grievance-scout:latest
+
+# Run
+docker run -e TWITTER_AUTH_TOKEN=xxx -e TWITTER_CT0=xxx \
+  -v $(pwd)/data:/data \
+  ghcr.io/ungalsoththu/grievance-scout:latest
+```
+
 ## Scripts
 
 | Script | Purpose |
