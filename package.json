@@ -1,8 +1,16 @@
 {
-  "name": "social-grievance-audit",
+  "name": "grievance-scout",
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "test": "bun test tests/all.test.ts --timeout 30000",
+    "test:unit": "bun test tests/unit/ --timeout 30000",
+    "test:integration": "bun test tests/integration/ --timeout 60000",
+    "test:coverage": "bun test tests/all.test.ts --timeout 30000 --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'No linter configured'"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
