@@ -1,0 +1,55 @@
+{
+  "handles": [
+    {
+      "id": "mtc-chennai",
+      "handle": "@MtcChennai",
+      "name": "MTC Chennai",
+      "city": "Chennai",
+      "authProfile": "default",
+      "isActive": true,
+      "searchConfig": {
+        "discoveryEnabled": true,
+        "backfillEnabled": true,
+        "maxBackfillDepthDays": 90,
+        "discoveryBatchSize": 50
+      },
+      "categories": [
+        "route_issue",
+        "fare_dispute",
+        "staff_behavior",
+        "infrastructure",
+        "breakdown",
+        "delay",
+        "safety",
+        "cleanliness",
+        "overcrowding",
+        "other"
+      ],
+      "escalationRules": {
+        "noResponseHours": 48,
+        "repeatComplaintThreshold": 3,
+        "escalationKeywords": [
+          "not resolved",
+          "still waiting",
+          "no response",
+          "ignored",
+          "pathetic",
+          "disgusting",
+          "useless",
+          "no action",
+          "fake promise"
+        ],
+        "taggingAuthorities": [
+          "@CollectorChennai",
+          "@TamilNaduCM"
+        ]
+      }
+    }
+  ],
+  "authProfiles": {
+    "default": {
+      "type": "bird_cli",
+      "envPrefix": "TWITTER"
+    }
+  }
+}
