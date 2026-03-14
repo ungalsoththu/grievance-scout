@@ -370,6 +370,7 @@ grievance-scout/
 - [ ] REST API for external dashboards
 
 ### 📋 Phase 6: Data Sources
+- [ ] **Instagram** - Requires Business account (see `docs/INSTAGRAM_INTEGRATION.md`)
 - [ ] Facebook Pages support
 - [ ] Reddit monitoring (r/chennai, etc.)
 - [ ] YouTube comment tracking
