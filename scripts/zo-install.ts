@@ -17,7 +17,7 @@
 import { Command } from 'commander';
 import { DatabaseMigrator } from '../src/db/migrator';
 import { existsSync, mkdirSync, cpSync, rmSync, renameSync, statSync } from 'fs';
-import { join } from 'path';
+import { join, dirname, basename } from 'path';
 
 const REPO_URL = 'https://github.com/ungalsoththu/grievance-scout.git';
 const DEFAULT_WORK_DIR = '/home/workspace/Data/grievance-scout';
@@ -180,7 +180,8 @@ async function install(options: InstallOptions): Promise<void> {
     
     // If force and exists, backup then replace
     if (existsSync(workDir) && options.force) {
-      const backup = join(workDir, '.pre-install-backup');
+      const parentDir = dirname(workDir);
+      const backup = join(parentDir, `${basename(workDir)}.pre-install-backup`);
       if (existsSync(backup)) rmSync(backup, { recursive: true });
       renameSync(workDir, backup);
       mkdirSync(workDir, { recursive: true });
