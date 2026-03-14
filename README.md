@@ -8,13 +8,47 @@
 
 Grievance Scout is a scalable, passive auditing platform that tracks citizen complaints to public service organizations on Twitter/X. It automatically discovers new complaint patterns, analyzes response times, and generates actionable audit reports.
 
-## Quick Start
+## Zo Deployment (Working Copy)
+
+The Zo working copy is **separate** from the GitHub repo. The repo is the source of truth; Zo pulls updates safely.
+
+### Initial Install
 
 ```bash
+# From the repo, run the installer
 cd /home/workspace/Skills/grievance-scout
+bun run scripts/zo-install.ts install --path /home/workspace/Data/grievance-scout
+```
+
+### Update to Latest
+
+```bash
+# Safely pull updates, backup data, run migrations
+bun run scripts/zo-install.ts update --backup
+```
+
+### Check Status
+
+```bash
+bun run scripts/zo-install.ts status
+```
+
+### Rollback (if needed)
+
+```bash
+# Rollback database migrations
+bun run scripts/zo-install.ts rollback --steps 1
+```
+
+## Developer Setup (Repo Work)
+
+If you're developing features for the repo itself:
+
+```bash
+git clone https://github.com/ungalsoththu/grievance-scout.git
+cd grievance-scout
 bun install
-bun run scripts/init.ts  # Initialize database
-bun run scripts/audit.ts --handle @MtcChennai
+bun test
 ```
 
 ## What It Does

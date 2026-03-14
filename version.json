@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "name": "grievance-scout",
+  "description": "Social grievance monitoring platform",
+  "repository": "https://github.com/ungalsoththu/grievance-scout",
+  "minUpgradeVersion": "0.9.0",
+  "breakingChanges": [],
+  "migrations": [
+    "001-initial-schema.sql"
+  ],
+  "compatibility": {
+    "node": ">=18",
+    "bun": ">=1.0",
+    "database": ["sqlite", "turso"]
+  },
+  "features": {
+    "twitter": true,
+    "database_migration": true,
+    "term_discovery": true,
+    "backfill": true,
+    "reporting": true
+  }
+}
