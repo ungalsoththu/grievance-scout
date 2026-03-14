@@ -327,6 +327,62 @@ grievance-scout/
 └── README.md
 ```
 
+## Roadmap
+
+### ✅ Phase 1: Core Platform (Complete)
+- [x] SQLite database adapter with Bun native SQLite
+- [x] Handle management and configuration
+- [x] Complaint/response storage and linking
+- [x] Passive query rotator with jitter
+- [x] Basic categorization (keyword-based)
+- [x] Escalation detection
+- [x] Weekly report generation
+- [x] Docker containerization
+- [x] GitHub Actions CI/CD
+- [x] Test suite (10 tests)
+
+### 🚧 Phase 2: Intelligence (In Progress)
+- [ ] LLM categorization via Zo API
+- [ ] Sentiment analysis
+- [ ] Response quality scoring
+- [ ] Auto-categorization refinement
+- [ ] Duplicate complaint detection
+
+### 📋 Phase 3: Scale & Distribution
+- [ ] Turso database adapter (distributed SQLite)
+- [ ] Multi-region deployment
+- [ ] Handle sharding across instances
+- [ ] Redis-based queue for large deployments
+
+### 📋 Phase 4: Analysis & Insights
+- [ ] Trend analysis (week-over-week)
+- [ ] Predictive escalation alerts
+- [ ] Response time benchmarking
+- [ ] Category heatmaps
+- [ ] Top complaint topics (TF-IDF)
+
+### 📋 Phase 5: Integrations
+- [ ] Telegram notifications for escalations
+- [ ] Slack webhook for team alerts
+- [ ] Email digests (daily/weekly)
+- [ ] Notion database sync
+- [ ] Google Sheets export
+- [ ] REST API for external dashboards
+
+### 📋 Phase 6: Data Sources
+- [ ] Facebook Pages support
+- [ ] Reddit monitoring (r/chennai, etc.)
+- [ ] YouTube comment tracking
+- [ ] News article monitoring
+- [ ] Complaint portal scraping
+
+### 📋 Phase 7: Advanced Features
+- [ ] Multi-language support (Tamil, Hindi)
+- [ ] Image/media analysis
+- [ ] Geolocation extraction
+- [ ] Network graph of complainants
+- [ ] Response template suggestions
+
 ## License
 
 MIT - Created for Zo Computer by ungalsoththu.zo.computer

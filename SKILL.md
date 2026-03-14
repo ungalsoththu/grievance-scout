@@ -6,7 +6,6 @@ metadata:
   author: ungalsoththu.zo.computer
   version: 1.0.0
 ---
-
 # Grievance Scout
 
 A production-grade platform for monitoring and auditing public service grievances on social media. Designed to be portable, scalable, and non-intrusive through passive querying.
@@ -334,6 +333,33 @@ sqlite3 Data/grievance-scout/audit.db ".recover" | sqlite3 audit-recovered.db
 | `AUDIT_DB_PATH` | No | Database path (default: `Data/grievance-scout/audit.db`) |
 | `TURSO_AUTH_TOKEN` | No* | Required if using Turso backend |
 | `ZO_CLIENT_IDENTITY_TOKEN` | No | Enables LLM categorization via Zo API |
+
+## Roadmap
+
+**Current**: Phase 1 complete (Core Platform)
+**Next**: Phase 2 (Intelligence) - LLM categorization, sentiment analysis
+
+### Completed ✅
+- SQLite database adapter
+- Passive query rotator
+- Handle/complaint/response storage
+- Term discovery engine
+- Weekly reporting
+- Docker & CI/CD
+- Test suite
+
+### In Progress 🚧
+- LLM categorization via Zo API
+- Sentiment analysis
+- Response quality scoring
+
+### Planned 📋
+- Turso distributed database
+- Multi-source (Facebook, Reddit)
+- REST API
+- Telegram/Slack notifications
+- Tamil/Hindi language support
+- Predictive escalation alerts
 
 ## License
 
