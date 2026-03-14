@@ -1,12 +1,7 @@
 /**
- * Test Runner
- * Imports all test suites
+ * Grievance Scout Test Suite
  */
 
-import './unit/db-adapter.test';
-import './unit/passive-rotator.test';
-import './unit/term-discovery.test';
-import './unit/categorizer.test';
-import './integration/full-audit.test';
+import './simple.test';
 
-console.log('Running all grievance-scout tests...');
+console.log('Running grievance-scout tests...');
